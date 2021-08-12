@@ -1,0 +1,19 @@
+import json
+import boto3
+
+s3 = boto3.client('s3')
+def lambda_handler(event, context):
+    bucket = 'aws-simplified-objects'
+    
+    transaction = {}
+    transaction['Transaction_Id'] = 'Tr-121212'
+    transaction['Customer_name'] = 'Rishikesh Jha'
+    transaction['Type'] = 'Purchase'
+    transaction['Amount'] = 200
+    transaction['Customer_Id'] = 'CID-13425'
+    
+    file_name = 'CID-13425' + '.json'
+    uploadByteStream = bytes(json.dumps(transaction).encode('UTF-8'))
+    
+    s3.put_object(Bucket=bucket, Key=file_name, Body=uploadByteStream)
+    print("Write Complete")
